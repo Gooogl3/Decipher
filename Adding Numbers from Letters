@@ -1,0 +1,61 @@
+# There are a few assumpitons for this code
+# Assumption 1: The length of the numbers and the length of the letters are the same
+# Assumption 2: The maximum lenth of the numbers can not exceed 26, the number of unique letters of the alphbet
+# Assumption 3: The only operations are addition and subtraction
+# Assumption 4: There are only 2 numbers in the final calculation
+
+Test = "18491274 ab+cdefgh"  # This is the variable that is tested in the code below
+Test2 = "923489234 abcdef-ghi"
+
+import string
+
+# Step 1: Create a list of letters from the alphbet
+ 
+alphabet_string = string.ascii_lowercase          # Creates a string of lowercase letters in the alphbet
+alphabet_list= list(alphabet_string)              # Turn the string into a list
+
+# Step 2: Seprating the given String into a 2 strings seprated by a space
+Num, Letter = Test.split(" ",1)
+
+# Step 3: Removing the operator from the second string 
+Operations = ["+", "-"]
+
+No_Operation_Letter = Letter
+
+for i in Operations:                                  # Loops through the Operations list.
+    if No_Operation_Letter.find(i) != -1:             # This checks if the Operator is in the String so it knows which one to remove
+        No_Operation_Letter = No_Operation_Letter.replace(i, "")  # Replaces the operator
+# Step 4: Creating the 2 numbers
+for i in Operations:                    # This splits the Letters string into two seprate strings seprated by the operator
+    if Letter.find(i) != -1:
+        Pt1, Pt2 = Letter.split(i,1)
+        
+# Step 5: Creating Lists for the Numbers and Strings. They Should be the Same Length
+Letter_List = list(No_Operation_Letter)           # Creating a list for the letters
+Num_List = list(Num)                              # Creating a list for the numbers
+
+# Step 6: Creating the numbers
+
+First_Number = []                                 # Creating a list for the letters for the first number
+for letter in Pt1:                                # Looping through the letters of Pt1   
+    First_Number.append(Num_List[Letter_List.index(letter)])    # Selecting the cooresponding number from numbers list by index
+num1 = "".join(First_Number)                      # Joining the letters into one string
+num1 = int(num1)                                  # Turning that joined string into an integer
+
+# repeat for Second number
+Second_Number = []
+for letter in Pt2:
+    Second_Number.append(Num_List[Letter_List.index(letter)])
+num2 = "".join(Second_Number)
+num2 = int(num2)
+
+# Step 7: Performing the operations
+OPERATORS = {'+': lambda x, y: x + y,            # Creating a hashmap/dictionary that performs the operation
+      '-': lambda x, y: x - y}
+
+# Producing the result
+for i in Operations:                             # Looping through the operators                          
+    if Letter.find(i) != -1:                     # Checking if the operator is in the orginal string
+        result = OPERATORS[i](num1,num2)         # Using the hashmap to perform the operation
+        
+result
